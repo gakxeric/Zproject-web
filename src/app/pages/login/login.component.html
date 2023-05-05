@@ -1,0 +1,56 @@
+
+   <div class="container card mt-2">
+    <div class="row card-body">
+      <div class="col-md-6">
+        <img src="https://via.placeholder.com/600x400" alt="Placeholder Image" class="img-fluid">
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+        
+          <div class="card-body">
+            <div class="step-container">
+                <div class="step active form-group"  *ngIf="currenctStep==0">
+                  <h2>Step 1: Enter your email</h2>
+                  <form [formGroup]="usernameForm">
+                    <div class="form-group">
+                      <label for="email">Email address</label>
+                      <input  placeholder="+2507xxxxxxxx" formControlName="username" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary next-step" (click)="goToNextStep()">Next</button>
+                  </form>
+                </div>
+                <div class="step active form-group" *ngIf="currenctStep==1">
+                  <h2>Step 2: Enter OTP</h2>
+                  <form [formGroup]="otpForm">
+                    <div class="form-group">
+                      <label for="password">Password</label>
+                      <ng-otp-input  [formCtrl]="otpControl"  [config]="{length:6}"></ng-otp-input>
+                    </div>
+                    <button type="submit" class="btn btn-primary next-step" (click)="goToNextStep()">Next</button>
+                  </form>
+                </div>
+                <div class="step active form-group" *ngIf="currenctStep==2">
+                  <h2>Step 2: Enter password</h2>
+                  <form [formGroup]="passwordForm">
+                    <div class="form-group">
+                      <label for="password">Password</label>
+                      <input matInput [type]="passwordHide ? 'password' : 'text'" formControlName="password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary next-step" (click)="goToNextStep()">Next</button>
+                    <button  class="forgot-btn color-warn" [disabled]="isLoading" routerLink="/reset-password">
+                        Forgot password?
+                      </button>
+                  </form>
+                </div>
+              
+        
+                <div class="alert alert-success" role="alert" *ngIf="successAlert">
+                  {{allertMessage}}
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+

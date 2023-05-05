@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg  ml-2">
+    <a class="navbar-brand px-2" href="#">ZPlatform</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+   
+  </nav>
+
+  <!-- Side Navigation -->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2 col-sm-4 col-12 p-0">
+        <nav class="sidenav">
+          <a href="dashboard/profile">General Information</a>
+          <a href="dashboard/contact">Contact Information</a>
+          <a href="dashboard/verification">Account Verification</a>
+          <a href="dashboard/settings">Settings</a>
+          <a href="#" (click)="logout()">Logout</a>
+        </nav>
+      </div>
+      <div class="col-md-10 col-sm-8 col-12 p-0">
+        <!-- Main Content Goes Here -->
+        <div class="main-content">
+            <router-outlet></router-outlet>
+          
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
