@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/api-services/api.service';
@@ -1494,6 +1495,7 @@ export class ProfileComponent implements OnInit {
   allertMessage: any
   today = new Date()
   alert = false
+  age: number = 0
   constructor(
     private api: ApiService,
     fb: FormBuilder,
@@ -1534,6 +1536,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     console.log(window.sessionStorage.getItem('profile')
     );
+    this.age = this.today.getFullYear() - new Date(this.user.birthdate).getFullYear()
     
   }
 

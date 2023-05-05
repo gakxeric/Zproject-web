@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApiService } from 'src/app/api-services/api.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
   alert = false;
   successAlert = false;
   allertMessage:any;
-
+age: number = 0
   currenctStep: number = 0;
 
   usingMagincLinkAuth: boolean = false;
@@ -36,7 +37,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private api: ApiService
+    private api: ApiService,
+    private datePipe: DatePipe
   ) {
     this.usernameForm = this.fb.group({
       username: ['', [Validators.required]],
@@ -59,6 +61,7 @@ export class LoginComponent implements OnInit {
     const profile = JSON.parse(
       window.sessionStorage.getItem('profile') as string
     );
+    this.age = this.today.getFullYear() - profile.birthdate.getFullYear()
 
     if (profile != null && profile != undefined) {
       this.router.navigate(['/dashboard/profile']);
@@ -233,5 +236,6 @@ export class LoginComponent implements OnInit {
   }
   next(){
     this.currenctStep +=1
+    this.successAlert=false
   }
 }
