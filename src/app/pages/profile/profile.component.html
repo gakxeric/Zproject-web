@@ -1,93 +1,210 @@
 <div class="card">
-    <div class="card-body">
-        <div class="container mt-5">
-            <div class="row">
-                <div class="col-md-4"  *ngIf="!editing">
-                    <img src="{{user.profile_photo}}" alt="Profile Picture" class="img-fluid rounded-circle">
-                </div>
-                <div class="col-md-8" *ngIf="!editing">
-                    <h1>{{user.first_name}} {{user.last_name}}</h1> 
-                   
-                    <p>Gender: {{user.gender}}</p>
-                    <p>Age: {{age}} Years</p>
-                    <p>Date of birth: {{user.birthdate}}</p>
-                    <p>Nationality: {{user.nationality}}</p>
-                    <button type="submit" class="btn btn-primary next-step" (click)="edit()">Edit</button>
-
-                </div>
-                <form [formGroup]="form">
-                <div class="col-md-12" *ngIf="editing">
-                    <div >
-                        <div >
-                          <div class="row">
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label for="first_name">First name</label>
-                                <input type="text" class="form-control" id="first_name" placeholder="John" formControlName="first_name" required>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <div class="form-group">
-                                <label for="last_name">Last name</label>
-                                <input type="text" class="form-control" id="last_name" placeholder="Doe" formControlName="last_name" required>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      
-                        <div >
-                          <div class="form-group">
-                            <label for="phone_number">Gender</label>
-                            <select name="" id="" class="form-control" formControlName="gender">
-                                <option value="MALE">Male</option>
-                                <option value="FEMALE">Female</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div >
-                          <div class="form-group">
-                            <label for="phone_number">Phone number</label>
-                            <input type="tel" class="form-control" id="phone_number" placeholder="+2507XXXXXXXX" formControlName="phone_number" required>
-                          </div>
-                        </div>
-                      
-                        <div >
-                          <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="john.doe@uams.com" formControlName="email" required>
-                          </div>
-                        </div>
-                      
-                        <div >
-                          <div class="form-group">
-                            <label for="birthdate">Birthdate</label>
-                            <div class="input-group">
-                              <input type="date" class="form-control" id="birthdate" placeholder="MM/DD/YYYY" formControlName="birthdate" required>
-                             
-                            </div>
-                          </div>
-                        </div>
-                      
-                        <div >
-                          <div class="form-group">
-                            <label for="birthdate">Nationality</label>
-                            <div class="input-group">
-                              <select name="" id="" class="form-control" formControlName="nationality">
-                                <option value="{{country.isoCode}}" *ngFor="let country of countries">{{country.name}}</option>
-                            </select>
-                            </div>
-                          </div>
-                        </div>
-                        <div >
-                          <div class="form-group">
-                            <button type="submit" class="btn btn-primary next-step mt-2" (click)="editUser()">Update</button>
-                          </div>
-                        </div>
-                      </div>
-                      
-                </div>
-                </form>
+  <div class="card-body">
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-md-4" *ngIf="!editing">
+          <img
+            src="{{ user.profile_photo }}"
+            alt="Profile Picture"
+            class="img-fluid rounded-circle"
+          />
+          <button
+            type="submit"
+            class="btn btn-primary next-step change"
+            (click)="change()"
+            *ngIf="!changing"
+          >
+            Change
+          </button>
+          <div class="col-md-7 change" *ngIf="changing">
+            <div class="form-group">
+              <label for="last_name">Profile picture</label>
+              <input
+                type="file"
+                class="form-control"
+                required
+                (change)="onFileSelectionChange($event)"
+              />
             </div>
+          </div>
         </div>
+        <div class="col-md-8" *ngIf="!editing">
+          <h1 *ngIf="user.first_name">
+            {{ user.first_name }} {{ user.last_name }}
+            <i
+              *ngIf="user.verification_status == 'VERIFIED'"
+              class="fa fa-check-circle text-primary"
+            ></i>
+          </h1>
+          <h1 *ngIf="!user.first_name">None</h1>
+
+          <p>Gender: {{ user.gender ? user.gender : "Not provided" }}</p>
+          <p>Age: {{ age ? age : "Not provided" }} Years</p>
+          <p>
+            Date of birth:
+            {{ user.birthdate ? user.birthdate : "Not provided" }}
+          </p>
+          <p>
+            Nationality:
+            {{ user.nationality ? user.nationality : "Not provided" }}
+          </p>
+
+          <p><b> Contact Information</b></p>
+
+          <p>Email: {{ user.email ? user.email : "Not provided" }}</p>
+          <p>
+            Phone Number:
+            {{ user.phone_number ? user.phone_number : "Not provided" }}
+          </p>
+          <button
+            type="submit"
+            class="btn btn-primary next-step"
+            (click)="edit()"
+          >
+            Edit
+          </button>
+        </div>
+
+        <form [formGroup]="form">
+          <div class="col-md-12" *ngIf="editing">
+            <div>
+              <div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="first_name">First name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="first_name"
+                        placeholder="John"
+                        formControlName="first_name"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="last_name">Last name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="last_name"
+                        placeholder="Doe"
+                        formControlName="last_name"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="form-group">
+                  <label for="phone_number">Gender</label>
+                  <select
+                    name=""
+                    id=""
+                    class="form-control"
+                    formControlName="gender"
+                  >
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <div class="form-group">
+                  <label for="phone_number">Phone number</label>
+                  <input
+                    type="tel"
+                    class="form-control"
+                    id="phone_number"
+                    placeholder="+2507XXXXXXXX"
+                    formControlName="phone_number"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    placeholder="john.doe@uams.com"
+                    formControlName="email"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <div class="form-group">
+                  <label for="birthdate">Birthdate</label>
+                  <div class="input-group">
+                    <input
+                      type="date"
+                      class="form-control"
+                      id="birthdate"
+                      placeholder="MM/DD/YYYY"
+                      formControlName="birthdate"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="form-group">
+                  <label for="birthdate">Nationality</label>
+                  <div class="input-group">
+                    <select
+                      name=""
+                      id=""
+                      class="form-control"
+                      formControlName="nationality"
+                    >
+                      <option
+                        value="{{ country.isoCode }}"
+                        *ngFor="let country of countries"
+                      >
+                        {{ country.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="form-group mt-2">
+                  <button
+                    type="submit"
+                    class="btn btn-primary next-step"
+                    (click)="editUser()"
+                  >
+                    Update
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-danger next-step ml-2"
+                    (click)="cancel()"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        <div class="alert alert-success mt-2" role="alert" *ngIf="successAlert">
+          {{ allertMessage }}
+        </div>
+        <div class="alert alert-danger mt-2" role="alert" *ngIf="alert">
+          {{ allertMessage }}
+        </div>
+      </div>
     </div>
+  </div>
 </div>

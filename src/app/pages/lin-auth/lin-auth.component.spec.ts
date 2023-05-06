@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ContactComponent } from './contact.component';
+import { LinAuthComponent } from './lin-auth.component';
 
-describe('ContactComponent', () => {
-  let component: ContactComponent;
-  let fixture: ComponentFixture<ContactComponent>;
+describe('LinAuthComponent', () => {
+  let component: LinAuthComponent;
+  let fixture: ComponentFixture<LinAuthComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ContactComponent ]
+      declarations: [ LinAuthComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ContactComponent);
+    fixture = TestBed.createComponent(LinAuthComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,41 +1,39 @@
 .navbar {
-    height: 80px;
-    background-color: #228b8b;
-    color: #fff;
-  }
-.navbar a{
-   
-    color: #fff !important;
-  }
+  height: 80px;
+  background-color: #228b8b;
+  color: #fff;
+}
+.navbar a {
+  color: #fff !important;
+}
 
-  /* Set a fixed height for the side navigation */
-  .sidenav {
-    height: 100%;
-    
-  }
+/* Set a fixed height for the side navigation */
+.sidenav {
+  height: 100vh;
+}
 
-  /* Set the background color of the side navigation */
-  .sidenav {
-    background-color: #29AFAF;
-  }
+/* Set the background color of the side navigation */
+.sidenav {
+  background-color: #29afaf;
+}
 
-  /* Style the links inside the navigation */
-  .sidenav a {
-    display: block;
-    padding: 16px;
-    font-size: 16px;
-    text-decoration: none;
-    color: #fff;
-  }
+/* Style the links inside the navigation */
+.sidenav a {
+  display: block;
+  padding: 16px;
+  font-size: 16px;
+  text-decoration: none;
+  color: #fff;
+}
 
-  /* Change the color of links on hover */
-  .sidenav a:hover {
-    background-color: #29AFAF;
-    color: #fff;
-  }
+/* Change the color of links on hover */
+.sidenav a:hover {
+  background-color: #29afaf;
+  color: #fff;
+}
 
-  /* Set the main content margin */
-  .main-content {
-    margin-left: 10px;
-    padding: 20px;
-  }
+/* Set the main content margin */
+.main-content {
+  margin-left: 10px;
+  padding: 20px;
+}

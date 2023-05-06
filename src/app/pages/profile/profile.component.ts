@@ -5,7 +5,7 @@ import { ApiService } from 'src/app/api-services/api.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
   countries = [
@@ -1486,20 +1486,20 @@ export class ProfileComponent implements OnInit {
       flag: 'https://cdn.kcak11.com/CountryFlags/countries/zw.svg',
     },
   ];
-  editing=false
-  data: any
-  user: any = JSON.parse( window.sessionStorage.getItem('profile') as string)
+  editing = false;
+  changing = false;
+  data: any;
+  file: any;
+  formData: FormData = new FormData();
+  user: any = JSON.parse(window.sessionStorage.getItem('profile') as string);
   form: FormGroup;
-  isLoading =false
-  successAlert = false
-  allertMessage: any
-  today = new Date()
-  alert = false
-  age: number = 0
-  constructor(
-    private api: ApiService,
-    fb: FormBuilder,
-  ) {
+  isLoading = false;
+  successAlert = false;
+  allertMessage: any;
+  today = new Date();
+  alert = false;
+  age: number = 0;
+  constructor(private api: ApiService, fb: FormBuilder) {
     this.form = fb.group({
       first_name: [
         this.user?.first_name ? this.user?.first_name : '',
@@ -1513,10 +1513,7 @@ export class ProfileComponent implements OnInit {
         this.user?.phone_number ? this.user?.phone_number : '',
         [Validators.required],
       ],
-      email: [
-        this.user?.email ? this.user?.email : '',
-        [Validators.required],
-      ],
+      email: [this.user?.email ? this.user?.email : '', [Validators.required]],
       birthdate: [
         this.user?.birthdate ? this.user?.birthdate : '',
         [Validators.required],
@@ -1530,14 +1527,12 @@ export class ProfileComponent implements OnInit {
         [Validators.required],
       ],
     });
-
-   }
+  }
 
   ngOnInit(): void {
-    console.log(window.sessionStorage.getItem('profile')
-    );
-    this.age = this.today.getFullYear() - new Date(this.user.birthdate).getFullYear()
-    
+    console.log(window.sessionStorage.getItem('profile'));
+    this.age =
+      this.today.getFullYear() - new Date(this.user.birthdate).getFullYear();
   }
 
   editUser(): void {
@@ -1551,31 +1546,65 @@ export class ProfileComponent implements OnInit {
 
     this.api.patch('users/' + this.user.id, data).subscribe(
       (response: any) => {
-        this.editing = false
-        response['token'] = this.user.token
-        window.sessionStorage.setItem('profile',JSON.stringify(response));
-        window.location.reload()
+        this.editing = false;
+        response['token'] = this.user.token;
+        window.sessionStorage.setItem('profile', JSON.stringify(response));
+        window.location.reload();
         this.isLoading = false;
-        this.successAlert=true
-        this.allertMessage=response.detail
-        
+        this.successAlert = true;
+        this.allertMessage = response.detail;
       },
       (error: any) => {
         console.log(error);
         this.isLoading = false;
 
         try {
-          this.alert =true
-          this.allertMessage=error.detail
-          
+          this.alert = true;
+          this.allertMessage = error.detail;
         } catch (error) {
-          this.alert =true
-          this.allertMessage='Network error'
+          this.alert = true;
+          this.allertMessage = 'Network error';
         }
       }
     );
   }
-edit(){
-this.editing=true
-}
+  edit() {
+    this.editing = true;
+  }
+  change() {
+    this.changing = true;
+  }
+  cancel() {
+    this.editing = false;
+  }
+  onFileSelectionChange($event: any): void {
+    if ($event.target.files && ($event.target.files[0] as File)) {
+      this.file = $event.target.files[0] as File;
+
+      this.formData.append('profile_photo', this.file);
+      this.api.patchFormData('users/' + this.user.id, this.formData).subscribe(
+        (response: any) => {
+          this.changing = false;
+          response['token'] = this.user.token;
+          window.sessionStorage.setItem('profile', JSON.stringify(response));
+          window.location.reload();
+          this.isLoading = false;
+          this.successAlert = true;
+          this.allertMessage = response.detail;
+        },
+        (error: any) => {
+          console.log(error);
+          this.isLoading = false;
+
+          try {
+            this.alert = true;
+            this.allertMessage = error.detail;
+          } catch (error) {
+            this.alert = true;
+            this.allertMessage = 'Network error';
+          }
+        }
+      );
+    }
+  }
 }

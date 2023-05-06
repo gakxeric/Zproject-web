@@ -1,0 +1,8 @@
+<h2 [align]="'center'" *ngIf="isLoading">
+  We are doing our <b><span class="color-primary">magic</span></b
+  >! We'll let you <b><span class="color-primary">in</span></b> shortly...
+</h2>
+
+<h1 [align]="'center'" *ngIf="errorMessage">Ooops...</h1>
+<br />
+<h2 [align]="'center'" *ngIf="errorMessage">{{ errorMessage }}</h2>

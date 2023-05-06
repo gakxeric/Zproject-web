@@ -8,7 +8,6 @@ import {
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApiService } from 'src/app/api-services/api.service';
-import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -16,8 +15,8 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
   today = new Date();
+  stage = 'Login';
   passwordHide = true;
   usernameForm: FormGroup;
   otpForm: FormGroup;
@@ -25,8 +24,8 @@ export class LoginComponent implements OnInit {
   isLoading = false;
   alert = false;
   successAlert = false;
-  allertMessage:any;
-age: number = 0
+  allertMessage: any;
+
   currenctStep: number = 0;
 
   usingMagincLinkAuth: boolean = false;
@@ -37,8 +36,7 @@ age: number = 0
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private api: ApiService,
-    private datePipe: DatePipe
+    private api: ApiService
   ) {
     this.usernameForm = this.fb.group({
       username: ['', [Validators.required]],
@@ -61,7 +59,6 @@ age: number = 0
     const profile = JSON.parse(
       window.sessionStorage.getItem('profile') as string
     );
-    this.age = this.today.getFullYear() - profile.birthdate.getFullYear()
 
     if (profile != null && profile != undefined) {
       this.router.navigate(['/dashboard/profile']);
@@ -81,8 +78,6 @@ age: number = 0
     // this.loginForm.get('username')?.enable();
     // this.loginForm.get('password')?.enable();
   }
-
-
 
   goToNextStep(): void {
     switch (this.currenctStep) {
@@ -122,12 +117,11 @@ age: number = 0
         this.isLoading = false;
 
         try {
-          this.alert =true
-          this.allertMessage=error.detail
-          
+          this.alert = true;
+          this.allertMessage = error.error.detail;
         } catch (error) {
-          this.alert =true
-          this.allertMessage='Network error'
+          this.alert = true;
+          this.allertMessage = 'Network error';
         }
       }
     );
@@ -145,8 +139,8 @@ age: number = 0
     this.api.post('auth/request-verification-code', data).subscribe(
       (response: any) => {
         this.isLoading = false;
-        this.successAlert=true
-        this.allertMessage=response.detail
+        this.successAlert = true;
+        this.allertMessage = response.detail;
         this.next();
       },
       (error: any) => {
@@ -154,12 +148,11 @@ age: number = 0
         this.isLoading = false;
 
         try {
-          this.alert =true
-          this.allertMessage=error.detail
-          
+          this.alert = true;
+          this.allertMessage = error.detail;
         } catch (error) {
-          this.alert =true
-          this.allertMessage='Network error'
+          this.alert = true;
+          this.allertMessage = 'Network error';
         }
       }
     );
@@ -176,7 +169,6 @@ age: number = 0
       ...this.usernameForm.value,
       ...this.otpForm.value,
     };
-   
 
     this.api.post('auth/verify-otp', data).subscribe(
       (response: any) => {
@@ -188,12 +180,11 @@ age: number = 0
         this.isLoading = false;
 
         try {
-          this.alert =true
-          this.allertMessage=error.error.detail
-          
+          this.alert = true;
+          this.allertMessage = error.error.detail;
         } catch (error) {
-          this.alert =true
-          this.allertMessage='Network error'
+          this.alert = true;
+          this.allertMessage = 'Network error';
         }
       }
     );
@@ -224,18 +215,17 @@ age: number = 0
         this.isLoading = false;
 
         try {
-          this.alert =true
-          this.allertMessage=error.error.detail
-          
+          this.alert = true;
+          this.allertMessage = error.error.detail;
         } catch (error) {
-          this.alert =true
-          this.allertMessage='Network error'
+          this.alert = true;
+          this.allertMessage = 'Network error';
         }
       }
     );
   }
-  next(){
-    this.currenctStep +=1
-    this.successAlert=false
+  next() {
+    this.currenctStep += 1;
+    this.successAlert = false;
   }
 }

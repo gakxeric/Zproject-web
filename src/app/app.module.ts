@@ -10,9 +10,9 @@ import { LoginComponent } from './pages/login/login.component';
 import { SideNavComponent } from './shared/side-nav/side-nav.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { ContactComponent } from './pages/contact/contact.component';
 import { VerificationComponent } from './pages/verification/verification.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { LinAuthComponent } from './pages/lin-auth/lin-auth.component';
 
 @NgModule({
   declarations: [
@@ -21,9 +21,9 @@ import { SettingsComponent } from './pages/settings/settings.component';
     SideNavComponent,
     SignupComponent,
     ProfileComponent,
-    ContactComponent,
     VerificationComponent,
-    SettingsComponent
+    SettingsComponent,
+    LinAuthComponent
   ],
   imports: [
     BrowserModule,
